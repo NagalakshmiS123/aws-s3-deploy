@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@master
 
-      - name: Sync to S3
-        uses: jakejarvis/s3-sync-action@master
+      - uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --delete
+          args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: my-devops-demo55
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-south-1
+          AWS_REGION: 'ap-south-1'  # Change to your region
+          SOURCE_DIR: '.'          # Use 'website' only if your files are inside a folder called 'website'
